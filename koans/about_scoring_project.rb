@@ -30,7 +30,34 @@ require './edgecase'
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  frequencies = {}
+  score = dice.inject(0) do |score, roll|
+    if frequencies[roll]
+      frequencies[roll] += 1
+    else
+      frequencies[roll] = 1
+    end
+
+    if roll == 1
+      score += 100
+    elsif roll == 5
+      score += 50
+    end
+
+    if frequencies[roll] == 3
+      if roll === 1
+        score += 700
+      elsif roll === 5
+        score += 350
+      else
+        score += roll * 100
+      end
+    end
+
+    score
+  end
+
+  score
 end
 
 class AboutScoringAssignment < EdgeCase::Koan
@@ -47,7 +74,7 @@ class AboutScoringAssignment < EdgeCase::Koan
   end
 
   def test_score_of_mulitple_1s_and_5s_is_the_sum
-    assert_equal 200, score([1,5,5,1])
+    assert_equal 300, score([1,5,5,1])
   end
 
   def test_score_of_single_2s_3s_4s_and_6s_are_zero
