@@ -14,9 +14,14 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
-  if a == b && a == c
+  if a <= 0 || b <= 0 || c <= 0
+    raise TriangleError.new("Invalid triangle length")
+  elsif a == b && a == c
     :equilateral
   elsif a == b || b == c || c == a
+    if (a == b && c > a) || (b == c && a > b) || (c == a && b > c)
+      raise TriangleError.new("Invalid triangle length")
+    end
     :isosceles
   else
     :scalene
